@@ -1,108 +1,18 @@
-const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
+
+const studentRouter = require('./routes/studentRoutes')
+
 const app = express();
+
+
+//MIddlewares
+app.use(morgan('dev'));
 app.use(express.json());
 
 
-
-const students = JSON.parse(
-  fs.readFileSync(`${__dirname}/dev-data/data/students.json`)
-);
-
-app.get('/api/v1/students', (req, res) => {
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            students
-        }
-    });
-});
-
-app.get('/api/v1/students/:adm', (req, res) =>
-{
-    const adm = req.params.adm * 1;
-    const student = students.find((el) => el.admission === adm);
-
-    if (!student)
-    {
-        return res.status(400).json({
-            status: 'fail',
-            message: 'Student not found'
-        })
-    }
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            student
-        }
-    });
-})
-
-app.post('/api/v1/students', (req, res) =>
-{
-    const newAdm = students[students.length - 1].admission + 1;
-    const newStudent = Object.assign({ admission: newAdm }, req.body);
-
-    if (!req.body.name || !req.body.gender)
-    {
-        return res.status(400).json({
-            status: 'fail',
-            message: 'Missing name or gender'
-        })
-    }
-
-    res.status(201).json({
-        status: 'success',
-        data: {
-            students:newStudent
-        }
-    })
-    
-})
-
-app.patch('/api/v1/students/:adm', (req, res) =>
-{
-    const adm = +req.params.adm;
-    const student = students.find((el) => el.admission === adm);
-    const updateStudent = Object.assign(student, req.body);
-
-    if (!student)
-    {
-        return res.status(400).json({
-            status: 'fail',
-            message: 'Student not found'
-        })
-    }
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            updateStudent
-        }
-    })
-
-})
-
-app.delete('/api/v1/students/:adm', (req, res) =>
-{
-    const adm = +req.params.adm;
-    const student = students.find((el) => el.admission === adm);
-
-    if (!student)
-    {
-        return res.status(400).json({
-            status: 'fail',
-            message: 'Student not found'
-        })
-    }
-
-    res.status(204).json({
-        status: 'success',
-        data: null
-    })
-})
+//Routes
+app.use('/api/v1/students', studentRouter)
 
 const port = 3000;
 app.listen(port, () => {
