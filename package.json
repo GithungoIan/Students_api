@@ -18,6 +18,7 @@
   "homepage": "https://github.com/IanGithungo01/Students_api#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.9.10",
     "morgan": "^1.10.0"
   }
 }
