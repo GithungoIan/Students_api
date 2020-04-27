@@ -1,0 +1,21 @@
+[{
+        "admission": 1,
+        "name": "joe doe",
+        "gender": "male"
+    },
+    {
+        "admission": 2,
+        "name": "Sunny",
+        "gender": "male"
+    },
+    {
+        "admission": 3,
+        "name": "Cena",
+        "gender": "male"
+    },
+    {
+        "admission": 4,
+        "name": "Bela",
+        "gender": "female"
+    }
+]
